@@ -1,24 +1,23 @@
-var hihatSound;
 var clapSound;
+var boomSound;
 var channel1 = [];
 appStart();
 function appStart() {
-    document.body.addEventListener('keypress', onKeyDown);
-    var btnChannel1Play = document.querySelector('#btnChannel1');
-    btnChannel1Play.addEventListener('click', onPlayChannel1);
-    getSounds();
+    window.addEventListener('keypress', onKeyDown);
+    var btnPlayChannel1 = document.querySelector('#playChannel1');
+    btnPlayChannel1.addEventListener('click', onPlayChannel1);
+    getAudioTags();
 }
 function onPlayChannel1() {
     channel1.forEach(function (sound) {
         setTimeout(function () { return playSound(sound.key); }, sound.time);
     });
 }
-function getSounds() {
-    hihatSound = document.querySelector('[data-sound="hihat"]');
+function getAudioTags() {
     clapSound = document.querySelector('[data-sound="clap"]');
+    boomSound = document.querySelector('[data-sound="boom"]');
 }
 function onKeyDown(ev) {
-    console.log(ev);
     var key = ev.key;
     var time = ev.timeStamp;
     channel1.push({ key: key, time: time });
@@ -28,12 +27,12 @@ function onKeyDown(ev) {
 function playSound(key) {
     switch (key) {
         case 'a':
-            hihatSound.currentTime = 0;
-            hihatSound.play();
-            break;
-        case 's':
             clapSound.currentTime = 0;
             clapSound.play();
+            break;
+        case 's':
+            boomSound.currentTime = 0;
+            boomSound.play();
             break;
     }
 }
