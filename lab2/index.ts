@@ -1,55 +1,41 @@
 let clapSound: HTMLAudioElement;
 let kickSound: HTMLAudioElement;
 
-const channel1Play: any[] = [];
-
-// interface KeyToSound {
-//     [keyCode: string]: HTMLAudioElement
-// }
-
-// const mappedSounds: KeyToSound = {
-//     's': clapSound,
-//     'w': kickSound,
-// }
-// const someKey = 'w'
-// mappedSounds[someKey]
+const channel1: any[] = [];
 
 appStart();
 function appStart(): void {
-    document.addEventListener('keypress', onKeyPress);
+    document.addEventListener('keypress', onKeyDown);
     const btnChannel1Play = document.querySelector('#channel1Play');
-    btnChannel1Play.addEventListener('click', onChannel1Play)
-    getAudioTags();
+    btnChannel1Play.addEventListener('click', onChannel1Play);
+    getAudioElements();
 }
-function onChannel1Play() {
-    channel1Play.forEach(sound => {
+function onChannel1Play(): void {
+    channel1.forEach(sound => {
         setTimeout(() => playSound(sound.key), sound.time)
     })
 }
 
-function getAudioTags(): void {
+function getAudioElements() {
     clapSound = document.querySelector('[data-sound="clap"]');
     kickSound = document.querySelector('[data-sound="kick"]');
 }
 
-function onKeyPress(ev: KeyboardEvent): void {
+function onKeyDown(ev: KeyboardEvent): void {
     const key = ev.key;
     const time = ev.timeStamp;
 
-    channel1Play.push({ key, time })
+    channel1.push({ key, time })
     playSound(key);
-
-    console.log(channel1Play)
+    console.log(channel1);
 }
-
 function playSound(key: string): void {
-    // q - clap, w - kick
     switch (key) {
-        case 'q':
+        case 'a':
             clapSound.currentTime = 0;
             clapSound.play();
             break;
-        case 'w':
+        case 's':
             kickSound.currentTime = 0;
             kickSound.play();
             break;
