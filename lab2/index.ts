@@ -1,44 +1,57 @@
-let clapSound: HTMLAudioElement
-let boomSound: HTMLAudioElement
+let clapSound: HTMLAudioElement;
+let kickSound: HTMLAudioElement;
 
-const channel1: any[] = [];
+const channel1Play: any[] = [];
+
+// interface KeyToSound {
+//     [keyCode: string]: HTMLAudioElement
+// }
+
+// const mappedSounds: KeyToSound = {
+//     's': clapSound,
+//     'w': kickSound,
+// }
+// const someKey = 'w'
+// mappedSounds[someKey]
+
 appStart();
-
 function appStart(): void {
-    window.addEventListener('keypress', onKeyDown);
-    const btnPlayChannel1 = document.querySelector('#playChannel1')
-    btnPlayChannel1.addEventListener('click', onPlayChannel1)
+    document.addEventListener('keypress', onKeyPress);
+    const btnChannel1Play = document.querySelector('#channel1Play');
+    btnChannel1Play.addEventListener('click', onChannel1Play)
     getAudioTags();
 }
-
-function onPlayChannel1(): void {
-    channel1.forEach(sound => {
+function onChannel1Play() {
+    channel1Play.forEach(sound => {
         setTimeout(() => playSound(sound.key), sound.time)
     })
 }
 
-function getAudioTags() {
+function getAudioTags(): void {
     clapSound = document.querySelector('[data-sound="clap"]');
-    boomSound = document.querySelector('[data-sound="boom"]');
+    kickSound = document.querySelector('[data-sound="kick"]');
 }
 
-function onKeyDown(ev: KeyboardEvent): void {
+function onKeyPress(ev: KeyboardEvent): void {
     const key = ev.key;
     const time = ev.timeStamp;
-    channel1.push({ key, time })
+
+    channel1Play.push({ key, time })
     playSound(key);
-    console.log(channel1);
+
+    console.log(channel1Play)
 }
 
-function playSound(key: string) {
+function playSound(key: string): void {
+    // q - clap, w - kick
     switch (key) {
-        case 'a':
+        case 'q':
             clapSound.currentTime = 0;
             clapSound.play();
             break;
-        case 's':
-            boomSound.currentTime = 0;
-            boomSound.play();
+        case 'w':
+            kickSound.currentTime = 0;
+            kickSound.play();
             break;
     }
 }
