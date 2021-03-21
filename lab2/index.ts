@@ -1,39 +1,46 @@
+let hihatSound: HTMLAudioElement;
+let clapSound: HTMLAudioElement;
+
 const channel1: any[] = [];
-const clapAudio: HTMLAudioElement = document.querySelector('[data-sound="clap"]')
 
-const playChannel1Btn: HTMLButtonElement = document.querySelector('#playChannel1');
+appStart();
 
-document.body.addEventListener('keypress', onKeyDown);
-playChannel1Btn.addEventListener('click', onPlayChannel1);
-
+function appStart(): void {
+    document.body.addEventListener('keypress', onKeyDown);
+    const btnChannel1Play = document.querySelector('#btnChannel1');
+    btnChannel1Play.addEventListener('click', onPlayChannel1)
+    getSounds();
+}
+function onPlayChannel1(): void {
+    channel1.forEach(sound => {
+        setTimeout(() => playSound(sound.key), sound.time)
+    });
+}
+function getSounds(): void {
+    hihatSound = document.querySelector('[data-sound="hihat"]');
+    clapSound = document.querySelector('[data-sound="clap"]');
+}
 function onKeyDown(ev: KeyboardEvent): void {
-
+    console.log(ev);
     const key = ev.key;
     const time = ev.timeStamp;
-
-    channel1.push({
-        key,
-        time
-    });
-
+    channel1.push({ key, time })
     playSound(key);
-    console.log(channel1)
+    console.log(
+        channel1
+    );
+
 }
 
-function playSound(key: string) {
-    
-    clapAudio.currentTime = 0;
-    clapAudio.play();
-}
-
-function onPlayChannel1(): void {
-    playChanne1();
-}
-
-function playChanne1(): void {
-    let prevTime = 0;
-    channel1.forEach(sound => {
-        const timeout = sound.time - prevTime;
-        setTimeout(() => playSound(sound.key), timeout);
-    });
+function playSound(key: string): void {
+    switch (key) {
+        case 'a':
+            hihatSound.currentTime = 0;
+            hihatSound.play();
+            break;
+        case 's':
+            clapSound.currentTime = 0;
+            clapSound.play();
+            break;
+    }
 }
